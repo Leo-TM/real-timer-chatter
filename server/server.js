@@ -4,6 +4,7 @@ const express = require('express');
 const socketIO = require('socket.io');
 const port = process.env.PORT || 3000;
 const initialPath = path.join(__dirname,'..');
+const {getMessage} = require('./utils/message');
 
 const app = express();
 var server = http.createServer(app);
@@ -15,25 +16,13 @@ io.on('connection',(socket)=>
 {
   console.log("new user connected");
 
-  socket.emit('newMessage',{
-    from:'admin',
-    text:'Wellcome simpre',
-    createdAt:new Date().getTime()
-  });
-  socket.broadcast.emit('newMessage',{
-    from:'admin',
-    text:'new user joined',
-    createdAt:new Date().getTime()
-  });
+  socket.emit('newMessage',getMessage('admin','Wellcome simpre'));
+  socket.broadcast.emit('newMessage',getMessage('admin','new user joined'));
 
   socket.on("createMessage",(message)=>
   {
     console.log("message from client ", message);
-    io.emit('newMessage',{
-      from:message.from,
-      text:message.text,
-      createdAt:new Date().getTime()
-    });
+    io.emit('newMessage',getMessage(message.from,message.text));
   });
   socket.on('disconnect',()=>
   {
