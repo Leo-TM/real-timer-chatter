@@ -19,10 +19,11 @@ io.on('connection',(socket)=>
   socket.emit('newMessage',getMessage('admin','Wellcome simpre'));
   socket.broadcast.emit('newMessage',getMessage('admin','new user joined'));
 
-  socket.on("createMessage",(message)=>
+  socket.on("createMessage",(message,callback)=>
   {
     console.log("message from client ", message);
     io.emit('newMessage',getMessage(message.from,message.text));
+    callback("Acknowledge from server");
   });
   socket.on('disconnect',()=>
   {
