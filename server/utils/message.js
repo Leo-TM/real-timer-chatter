@@ -8,4 +8,16 @@ var getMessage = (from,text) =>
     createdAt:new Date().getTime()
   }
 }
-module.exports = {getMessage};
+
+
+var getLocationMessage = (from,lat,lon)=>
+{
+  return {
+    from,
+    url: `https://www.google.com/maps?q=${lat},${lon}`,
+    createdAt:new Date().getTime()
+  };
+
+}
+
+module.exports = {getMessage,getLocationMessage};

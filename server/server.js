@@ -4,7 +4,7 @@ const express = require('express');
 const socketIO = require('socket.io');
 const port = process.env.PORT || 3000;
 const initialPath = path.join(__dirname,'..');
-const {getMessage} = require('./utils/message');
+const {getMessage,getLocationMessage} = require('./utils/message');
 
 const app = express();
 var server = http.createServer(app);
@@ -29,6 +29,12 @@ io.on('connection',(socket)=>
   {
     console.log(" user disconnected");
   });
+  socket.on('createLocationMessage',(coords)=>
+  {
+    console.log('checkin',coords);
+    io.emit('newLocationMessage',getLocationMessage('Admin',coords.lat,coords.lon));
+  });
+
 });
 
 
