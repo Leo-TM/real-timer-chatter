@@ -23,7 +23,7 @@ io.on('connection',(socket)=>
   {
     console.log("message from client ", message);
     io.emit('newMessage',getMessage(message.from,message.text));
-    callback("Acknowledge from server");
+    callback();
   });
   socket.on('disconnect',()=>
   {
