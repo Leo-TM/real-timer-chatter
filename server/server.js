@@ -31,7 +31,6 @@ io.on('connection',(socket)=>
   });
   socket.on('createLocationMessage',(coords)=>
   {
-    console.log('checkin',coords);
     io.emit('newLocationMessage',getLocationMessage('Admin',coords.lat,coords.lon));
   });
 
