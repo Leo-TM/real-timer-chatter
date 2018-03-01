@@ -16,7 +16,7 @@ io.on('connection',(socket)=>
 {
   console.log("new user connected");
 
-  socket.emit('newMessage',getMessage('admin','Wellcome simpre'));
+  socket.emit('newMessage',getMessage('admin','Wellcome user'));
   socket.broadcast.emit('newMessage',getMessage('admin','new user joined'));
 
   socket.on("createMessage",(message,callback)=>
