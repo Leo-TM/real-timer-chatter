@@ -39,8 +39,12 @@ io.on('connection',(socket)=>
   });
   socket.on("createMessage",(message,callback)=>
   {
-    console.log("message from client ", message);
-    io.emit('newMessage',getMessage(message.from,message.text));
+    var user = users.getUser(socket.id);
+    if(user && isRealString(message.text))
+    {
+      io.to(user.room).emit('newMessage',getMessage(user.name,message.text));
+    }
+
     callback();
   });
   socket.on('disconnect',()=>
@@ -57,7 +61,11 @@ io.on('connection',(socket)=>
 
   socket.on('createLocationMessage',(coords)=>
   {
-    io.emit('newLocationMessage',getLocationMessage('Admin',coords.lat,coords.lon));
+    var user = users.getUser(socket.id);
+    if(user)
+    {
+      io.to(user.room).emit('newLocationMessage',getLocationMessage(user.name,coords.lat,coords.lon));
+    }
   });
 
 });
